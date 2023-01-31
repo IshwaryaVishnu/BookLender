@@ -3,6 +3,8 @@ package se.lexicon.booklender.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import se.lexicon.booklender.exception.DataDuplicateException;
+import se.lexicon.booklender.exception.DataNotFoundException;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -31,6 +33,19 @@ public class Book {
         this.title = title;
         this.maxLoanDays = maxLoanDays;
     }
+    public void addAuthor(Author author){
+        if (authors.contains(author)){
+            throw new DataDuplicateException("DataDuplicateException");
+        }
+        authors.add(author);
+    }
 
+
+    public void removeAuthor(Author author){
+        if (!authors.contains(author)){
+            throw new DataNotFoundException("DataNotFoundException");
+        }
+        authors.remove(author);
+    }
 
 }

@@ -3,6 +3,8 @@ package se.lexicon.booklender.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import se.lexicon.booklender.exception.DataDuplicateException;
+import se.lexicon.booklender.exception.DataNotFoundException;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -25,6 +27,20 @@ public class Author {
             inverseJoinColumns = @JoinColumn(name = "book_id")
     )
     private List<Book> writtenBooks = new ArrayList<>();
+    public void addBook(Book book) {
+        if (writtenBooks.contains(book)) {
+            throw new DataDuplicateException("DataDuplicateException");
+        }
+        writtenBooks.add(book);
+    }
+
+
+    public void removeBook(Book book) {
+        if (!writtenBooks.contains(book)) {
+            throw new DataNotFoundException("DataNotFoundException");
+        }
+        writtenBooks.remove(book);
+    }
 
 
 }

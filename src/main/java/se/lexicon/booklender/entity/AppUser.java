@@ -3,16 +3,16 @@ package se.lexicon.booklender.entity;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 @Setter
 @Getter
 @EqualsAndHashCode
 @ToString
 @AllArgsConstructor
+@NoArgsConstructor
+
+@Entity
 public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,11 +23,17 @@ public class AppUser {
     private  String password;
     @CreationTimestamp
     private LocalDate regDate;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name ="details_id")
+    private Details details;
 
 
     //Custom constructor
-    public AppUser(String userName, String password) {
+    public AppUser(String userName, String password,Details details) {
         this.userName = userName;
         this.password = password;
+        this.details =details;
     }
+
+
 }

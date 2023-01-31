@@ -12,25 +12,19 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @Entity
-public class Book {
+public class Author {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String isbn;
-    private String title;
-    private int maxLoanDays;
+    private String name;
 
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "books_authors",
-            joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "author_id")
+            joinColumns = @JoinColumn(name = "author_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id")
     )
-    private List<Author> authors = new ArrayList<>();
-    public Book(String isbn, String title, int maxLoanDays) {
-        this.isbn = isbn;
-        this.title = title;
-        this.maxLoanDays = maxLoanDays;
-    }
+    private List<Book> writtenBooks = new ArrayList<>();
 
 
 }
